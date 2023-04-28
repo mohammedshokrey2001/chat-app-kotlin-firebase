@@ -72,6 +72,7 @@ class ProfileFragment : Fragment() {
 
             Log.i("Profile", "changeStatusDialog: ${text.text.toString()}")
 
+            viewModel.changeStatus(text.text.toString())
             dialog.cancel()
 
 

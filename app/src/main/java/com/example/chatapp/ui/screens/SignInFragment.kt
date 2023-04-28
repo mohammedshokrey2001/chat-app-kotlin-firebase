@@ -70,7 +70,6 @@ class SignInFragment : Fragment() {
             ,this.requireContext()
         )
 
-
     }
 
 
