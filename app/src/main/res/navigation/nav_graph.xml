@@ -45,6 +45,9 @@
         <action
             android:id="@+id/action_startFragment_to_createAccountFragment"
             app:destination="@id/createAccountFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_peopleFragment"
+            app:destination="@id/peopleFragment" />
     </fragment>
     <fragment
         android:id="@+id/createAccountFragment"

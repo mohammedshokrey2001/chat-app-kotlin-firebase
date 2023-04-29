@@ -13,7 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentCreateAccountBinding
-import com.example.chatapp.domain.SignUpModel
+import com.example.chatapp.domain.models.auth.SignUpModel
 import com.example.chatapp.ui.view_model.AppViewModel
 
 

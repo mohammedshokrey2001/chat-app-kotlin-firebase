@@ -2,6 +2,7 @@ package com.example.chatapp.ui.screens
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -17,6 +19,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.chatapp.DestWithNoNavigationBarMenuView
 import com.example.chatapp.R
 import com.example.chatapp.databinding.ActivityMainBinding
+import com.example.chatapp.domain.shared_pref.AppSharedPref
 import com.example.chatapp.ui.view_model.AppViewModel
 import com.example.chatapp.ui.view_model.AppVmFactory
 
@@ -40,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.findNavController()
 
         binding.navigationBar.setupWithNavController(navController)
+
 
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -90,6 +94,7 @@ class MainActivity : AppCompatActivity() {
        val  STORAGE_PERMISSION_CODE = 2005
         val TAG = "ACCESS"
          val READ_STORAGE_PERMISSION_REQUEST_CODE = 41
+
 
     }
 }

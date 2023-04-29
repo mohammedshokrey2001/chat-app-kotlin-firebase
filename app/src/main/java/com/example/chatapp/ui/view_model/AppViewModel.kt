@@ -10,10 +10,10 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.example.chatapp.domain.SignInModel
-import com.example.chatapp.domain.SignUpModel
-import com.example.chatapp.domain.TextMessageModel
-import com.example.chatapp.domain.User
+import com.example.chatapp.domain.models.auth.SignInModel
+import com.example.chatapp.domain.models.auth.SignUpModel
+import com.example.chatapp.domain.models.chat.TextMessageModel
+import com.example.chatapp.domain.models.user.User
 import com.example.chatapp.ui.screens.CreateAccountFragment
 import com.example.chatapp.ui.screens.SignInFragment
 import com.google.firebase.auth.FirebaseAuth
@@ -29,7 +29,7 @@ import java.io.ByteArrayOutputStream
 import java.util.*
 
 
-class AppViewModel(application: Application) : AndroidViewModel(application) {
+class AppViewModel(  application: Application) : AndroidViewModel(application) {
     private var auth: FirebaseAuth = Firebase.auth
 
     var signUpDone = MutableLiveData(false)
@@ -42,11 +42,9 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
     private var currentUserId: String = ""
     var otherUserMessaging = User("","","","","")
 
-
-
+    private val PREFERENCES_NAME_USER =  "sample_datastore_prefs"
     var otherId :String = ""
     private var database: DatabaseReference = Firebase.database.reference
-
 
     var listOfUsers = mutableListOf<User>()
 
@@ -185,7 +183,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         listOfUsers.clear()
         database.child("users").get().addOnSuccessListener {
             it.children.forEach {
-                if (it.key.toString() != currentUserId) {
+                if (it.key.toString() != user.id) {
 
                     val userD = User(
                         id= it.key.toString(),
@@ -223,7 +221,5 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
         }
     }
-
-
 
 }

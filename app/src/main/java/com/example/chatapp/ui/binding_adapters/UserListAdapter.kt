@@ -1,21 +1,17 @@
 package com.example.chatapp.ui.binding_adapters
 
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.R
 import com.example.chatapp.databinding.ListItemUserBinding
-import com.example.chatapp.domain.User
+import com.example.chatapp.domain.models.user.User
 import com.example.chatapp.ui.view_model.AppViewModel
-import kotlin.math.log
 
 class UserListAdapter(private val usersList: List<User>,
-                      private val navController: NavController,private val viewModel:AppViewModel): RecyclerView.Adapter<UserViewHolder>() {
+                      private val navController: NavController, private val viewModel:AppViewModel): RecyclerView.Adapter<UserViewHolder>() {
 
     var data = usersList
     lateinit var binding: ListItemUserBinding

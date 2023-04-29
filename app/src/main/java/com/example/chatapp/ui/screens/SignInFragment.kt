@@ -7,17 +7,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentSignInBinding
-import com.example.chatapp.domain.SignInModel
-import com.example.chatapp.domain.SignUpModel
+import com.example.chatapp.domain.models.auth.SignInModel
+import com.example.chatapp.domain.shared_pref.AppSharedPref
 import com.example.chatapp.ui.view_model.AppViewModel
 
 
@@ -26,6 +23,7 @@ class SignInFragment : Fragment() {
    private lateinit var binding :FragmentSignInBinding
 
    private val viewModel :AppViewModel by activityViewModels ()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,9 +35,12 @@ class SignInFragment : Fragment() {
     ): View? {
 
         binding =  DataBindingUtil.inflate(inflater,R.layout.fragment_sign_in, container, false)
+         val sharedPref =AppSharedPref(this.requireActivity())
+
 
         binding.loginButton.setOnClickListener {
             performSignIn()
+
 
         }
         Log.i("TAG-Dest", "onCreateView: called")
@@ -55,6 +56,9 @@ class SignInFragment : Fragment() {
                 binding.editTextPassword.text = null
                 Log.i("TAG-Dest", "performSignIn: ${this.findNavController().currentDestination}")
 
+
+                sharedPref.setLoggedInState(true)
+                sharedPref.setUserData(viewModel.user)
                 findNavController().navigate(R.id.action_signInFragment_to_peopleFragment)
             }
 

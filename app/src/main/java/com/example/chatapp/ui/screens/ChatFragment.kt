@@ -12,9 +12,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentChatBinding
-import com.example.chatapp.domain.ChatMessage
-import com.example.chatapp.domain.TextMessageModel
-import com.example.chatapp.domain.User
+import com.example.chatapp.domain.models.chat.ChatMessage
+import com.example.chatapp.domain.models.chat.TextMessageModel
 import com.example.chatapp.ui.binding_adapters.MessagesListAdapter
 import com.example.chatapp.ui.view_model.AppViewModel
 import com.google.firebase.database.*

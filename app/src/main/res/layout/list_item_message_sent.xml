@@ -13,7 +13,7 @@
 
         <variable
             name="message"
-            type="com.example.chatapp.domain.ChatMessage" />
+            type="com.example.chatapp.domain.models.chat.ChatMessage" />
     </data>
 
     <LinearLayout

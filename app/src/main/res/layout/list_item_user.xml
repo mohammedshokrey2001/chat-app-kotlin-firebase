@@ -12,7 +12,7 @@
 
         <variable
             name="user"
-            type="com.example.chatapp.domain.User" />
+            type="com.example.chatapp.domain.models.user.User" />
 
     </data>
 

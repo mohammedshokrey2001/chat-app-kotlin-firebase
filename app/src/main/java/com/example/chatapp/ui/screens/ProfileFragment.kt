@@ -20,6 +20,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentProfileBinding
+import com.example.chatapp.domain.shared_pref.AppSharedPref
 import com.example.chatapp.ui.view_model.AppViewModel
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
@@ -47,6 +48,7 @@ class ProfileFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false)
 
+        val sharedPref = AppSharedPref(this.requireActivity())
         binding.viewmodel = viewModel
 
         binding.changeStatusButton.setOnClickListener {
@@ -58,6 +60,7 @@ class ProfileFragment : Fragment() {
         }
         binding.logoutButton.setOnClickListener {
             viewModel.signInDone.postValue(false)
+            sharedPref.setLoggedInState(false)
             findNavController().navigate(R.id.action_profileFragment_to_startFragment)
             Log.i("LogOut", "changeStatusDialog: navigate")
         }

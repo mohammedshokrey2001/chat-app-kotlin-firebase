@@ -3,11 +3,10 @@ package com.example.chatapp.ui.binding_adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapp.databinding.ListItemMessageReceivedBinding
 import com.example.chatapp.databinding.ListItemMessageSentBinding
-import com.example.chatapp.domain.ChatMessage
+import com.example.chatapp.domain.models.chat.ChatMessage
 
 class MessagesListAdapter internal constructor(private val userId: String ,private val chatList :ArrayList<ChatMessage>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {

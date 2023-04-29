@@ -1,4 +1,4 @@
-package com.example.chatapp.domain
+package com.example.chatapp.domain.models.chat
 
 interface Message {
     val time : String
