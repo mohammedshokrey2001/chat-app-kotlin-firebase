@@ -12,6 +12,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.chatapp.domain.SignInModel
 import com.example.chatapp.domain.SignUpModel
+import com.example.chatapp.domain.TextMessageModel
 import com.example.chatapp.domain.User
 import com.example.chatapp.ui.screens.CreateAccountFragment
 import com.example.chatapp.ui.screens.SignInFragment
@@ -19,11 +20,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import java.io.ByteArrayOutputStream
+import java.util.*
 
 
 class AppViewModel(application: Application) : AndroidViewModel(application) {
@@ -31,17 +34,21 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
 
     var signUpDone = MutableLiveData(false)
     var signInDone = MutableLiveData(false)
+    var newUsersDone = MutableLiveData(false)
+
     private val storage = Firebase.storage
     private val TAG = "ViewModel"
     lateinit var user: User
     private var currentUserId: String = ""
-    private lateinit var database: DatabaseReference
+    var otherUserMessaging = User("","","","","")
 
 
-    init {
-        database = Firebase.database.reference
 
-    }
+    var otherId :String = ""
+    private var database: DatabaseReference = Firebase.database.reference
+
+
+    var listOfUsers = mutableListOf<User>()
 
     // Initialize Firebase Auth
     fun signUp(signUpModel: SignUpModel, context: Context) {
@@ -87,6 +94,7 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                         imageUrl = it.toString()
 
                         user = User(
+                            id = currentUserId.toString(),
                             mail = userDemo?.email.toString(),
                             profileImageUrl = imageUrl,
                             status =   "waiting".toString() , name = userDemo?.displayName.toString()
@@ -162,12 +170,57 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
         database.child("users").child(currentUserId).child("status").get().addOnSuccessListener {
             Log.i("firebase", "Got value ${it.value}")
             val demo = user
-            user = User(name = demo.name, mail = demo.mail, profileImageUrl = demo.profileImageUrl, status = it.value.toString())
+            user = User(id = demo.id, name = demo.name, mail = demo.mail, profileImageUrl = demo.profileImageUrl, status = it.value.toString())
             setData()
 
             signInDone.postValue(true)
         }.addOnFailureListener{
             Log.e("firebase", "Error getting data", it)
+        }
+
+    }
+
+    fun getAllUsers(){
+
+        listOfUsers.clear()
+        database.child("users").get().addOnSuccessListener {
+            it.children.forEach {
+                if (it.key.toString() != currentUserId) {
+
+                    val userD = User(
+                        id= it.key.toString(),
+                        mail = it.child("mail").value.toString(),
+                        name = it.child("name").value.toString(),
+                        profileImageUrl = it.child("profileImageUrl").value.toString(),
+                        status = it.child("status").value.toString()
+                    )
+                    listOfUsers.add(userD)
+                }
+            }
+            Log.i(TAG, "getAllUsers: ${listOfUsers.toString()}")
+
+            newUsersDone.postValue(true)
+        }.addOnFailureListener {
+            Log.i(TAG, "getAllUsers: failed")
+        }
+    }
+
+
+    fun getMessages(){
+
+
+    }
+
+    fun sendMessage(messageTextMessageModel: TextMessageModel){
+        val currentTime: Date = Calendar.getInstance().time
+
+        var reference = FirebaseDatabase.getInstance().reference
+
+        reference.child("chat").push().setValue(messageTextMessageModel).addOnSuccessListener {
+            Log.i(TAG, "sendMessage: done")
+        }.addOnFailureListener {
+            Log.i(TAG, "sendMessage: failed ${it.message.toString()}")
+
         }
     }
 

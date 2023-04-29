@@ -17,6 +17,7 @@ import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.chatapp.R
 import com.example.chatapp.databinding.FragmentProfileBinding
 import com.example.chatapp.ui.view_model.AppViewModel
@@ -55,7 +56,11 @@ class ProfileFragment : Fragment() {
         binding.changeImageButton.setOnClickListener {
             openGalleryForImages()
         }
-
+        binding.logoutButton.setOnClickListener {
+            viewModel.signInDone.postValue(false)
+            findNavController().navigate(R.id.action_profileFragment_to_startFragment)
+            Log.i("LogOut", "changeStatusDialog: navigate")
+        }
         return binding.root
     }
 
@@ -79,10 +84,12 @@ class ProfileFragment : Fragment() {
         }
 
 
+
+
     }
     private fun openGalleryForImages() {
 
-            var intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             intent.addCategory(Intent.CATEGORY_OPENABLE)
             intent.type = "image/*"
@@ -105,7 +112,7 @@ class ProfileFragment : Fragment() {
     }
 
 
-    fun convertImageToByte(uri: Uri?): ByteArray? {
+    private fun convertImageToByte(uri: Uri?): ByteArray? {
         var data: ByteArray? = null
         try {
             val cr: ContentResolver =this.requireContext().getContentResolver()
